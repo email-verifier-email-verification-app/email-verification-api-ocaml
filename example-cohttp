@@ -1,0 +1,14 @@
+open Cohttp_lwt_unix
+open Cohttp
+open Lwt
+
+let uri = Uri.of_string "https://api.evasrv.com/email_verification/" in
+let headers = Header.init ()
+  |> fun h -> Header.add h "cache-control" "no-cache"
+  |> fun h -> Header.add h "content-type" "application/x-www-form-urlencoded"
+in
+let body = Cohttp_lwt_body.of_string "email=test%40domain.com&user_API_token=ggd0143305f60a131dc5d458431e756e7d1b19ba&=" in
+
+Client.call ~headers ~body `POST uri
+>>= fun (res, body_stream) ->
+  (* Do stuff with the result *)
